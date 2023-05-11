@@ -48,8 +48,8 @@ def lambda_handler(event, context):
             
             if result is None:
                 # Inserção do produto no carrinho do usuário
-                sql = "INSERT INTO CarrinhoCompras (usuario_id, produto_id, quantidade, data_adicao) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (usuario_id, produto_id, quantidade, datetime.datetime.now()))
+                sql = "INSERT INTO CarrinhoCompras (usuario_id, produto_id, quantidade) VALUES (%s, %s, %s)"
+                cursor.execute(sql, (usuario_id, produto_id, quantidade))
                 conn.commit()
                 
             else:
