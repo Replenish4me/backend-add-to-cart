@@ -8,7 +8,7 @@ def lambda_handler(event, context):
     
     # Leitura dos dados da requisição
     produto_id = event['produto_id']
-    quantidade = event['quantidade']
+    quantidade = event.get('quantidade', 1)
     token = event['token']
     
     # Conexão com o banco de dados
@@ -32,6 +32,11 @@ def lambda_handler(event, context):
             cursor.execute(sql, (token,))
             result = cursor.fetchone()
             
+            if result is None:
+                sql = "SELECT usuario_id FROM Leitores WHERE id = %s"
+                cursor.execute(sql, (token,))
+                result = cursor.fetchone()
+
             if result is None:
                 response = {
                     "statusCode": 401,
